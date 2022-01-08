@@ -1,4 +1,4 @@
-# Rigol DP832 Calibration Script
+# Rigol DP832 Calibration Script (with BM867/BM869)
 
 This script allows calibration of a DP832 using any multimeter supported by python-ivi. The calibration script was based heavily on a previous script by [bson on the EEVBlog forums](http://www.eevblog.com/forum/testgear/rigol-dp832-firmware-updates-and-bug-list/msg650855/#msg650855), which in turn was based on a [MATLAB script by LaurentR](http://www.eevblog.com/forum/testgear/rigol-dp832-firmware-updates-and-bug-list/msg587350/#msg587350).
 
@@ -8,9 +8,7 @@ The SCPI calibration information came from [TooOldForThis](http://www.eevblog.co
 
 * [python-ivi](https://github.com/python-ivi/python-ivi)
 * A Rigol DP832 Power Supply
-* A 6.5 Digit Multimeter supported by python-ivi
-
-If you have a Keithley 2000 or compatible meter, I have initial support implemented in a [fork of python-ivi](https://github.com/stupid-beard/python-ivi/tree/feature/keithley2000).
+* A Brymen BM867/BM869 with [this cable/firmware](https://github.com/MartinD-CZ/brymen-867-interface-cable)
 
 This was written using Python 3 on Linux and has not been tested on other platforms. It will require minor hackery to work on Python 2.
 

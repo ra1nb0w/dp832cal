@@ -27,7 +27,7 @@ class DP832Cal:
     cal_daci = [ [], cal_daci12, cal_daci12, cal_daci3 ]
     cal_adci = [ [], cal_adci12, cal_adci12, cal_adci3 ]
 
-    stabilization_time_sec = 2
+    stabilization_time_sec = 5
     
     def __init__(self, psu, dmm):
         super(DP832Cal, self).__init__()
@@ -61,8 +61,10 @@ class DP832Cal:
         if self._dmm_setup_callback:
             self._dmm_setup_callback(self._dmm, function)
         else:
-            self._dmm.measurement_function = function
-            self._dmm.auto_range = 'on'
+            self._dmm.write(b'S')
+            self._dmm.flush()
+            self._dmm.reset_input_buffer()
+            self._dmm.reset_output_buffer()
 
     def _print_instrument(self, inst):
         print("   %s %s (%s) %s" % (inst.identity.instrument_manufacturer,
@@ -104,7 +106,10 @@ class DP832Cal:
             
             time.sleep(self.stabilization_time_sec)
             if not manual:
-                value_read = self._dmm.measurement.read(1)
+                self._dmm.write(b'D')
+                self._dmm.flush()
+                time.sleep(1)
+                value_read = float(self._dmm.readline().decode('utf-8').split(": ")[1].split(" ")[0])
             else:
                 value_read = float(input("Enter DMM reading: ").strip())
             
@@ -116,8 +121,7 @@ class DP832Cal:
     def calibrate(self, channels=range(1, 4), update=False):
         print("Calibrating:")
         self._print_instrument(self._psu)
-        print("\nWith:")
-        self._print_instrument(self._dmm)
+        print("\nWith: Brymen BM867/BM869")
         
         if self._manual_current_limit < 3.2:
             print()
